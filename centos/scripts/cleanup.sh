@@ -4,7 +4,8 @@
 distro="`rpm -qf --queryformat '%{NAME}' /etc/redhat-release | cut -f 1 -d '-'`"
 
 # Remove development and kernel source packages
-yum -y remove gcc cpp kernel-devel kernel-headers;
+#yum -y remove gcc cpp kernel-devel kernel-headers;
+yum -y remove kernel-devel;
 
 if [ "$distro" != 'redhat' ]; then
   yum -y clean all;
@@ -57,3 +58,9 @@ fi
 
 # delete any logs that have built up during the install
 find /var/log/ -name *.log -exec rm -f {} \;
+
+# delete temporary files
+rm -fr /tmp/*
+
+# Unregister with RHN or Cloudlinux
+rm -f /etc/sysconfig/rhn/systemid
